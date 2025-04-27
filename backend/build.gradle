@@ -1,5 +1,13 @@
 plugins {
     id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'com.github.node-gradle.node' version '7.1.0'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 group = 'tip'
@@ -10,8 +18,25 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation 'org.xerial:sqlite-jdbc:3.25.2'  // From your XML dependency
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-community-dialects
+    implementation 'org.hibernate.orm:hibernate-community-dialects:6.4.4.Final' // Upgraded to Hibernate 6.x
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+bootJar {
+    archiveBaseName = 'raceguessr'
+    archiveVersion = '0.1.0'
+    mainClass = 'tip.Main'
 }
 
 test {
