@@ -23,6 +23,9 @@ public class User {
     private String usr_password;
 
     @Column(nullable = false)
+    private String usr_role;
+
+    @Column(nullable = false)
     private String usr_gender;
 
     @ManyToOne
