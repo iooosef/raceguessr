@@ -1,5 +1,5 @@
 BEGIN TRANSACTION;
-INSERT INTO "country" ("cnt_continent","cnt_name","cnt_region") 
+INSERT INTO "country" ("continent","name","region") 
 VALUES 
  ('Asia','Myanmar ','Southern Asia'),
  ('Asia','India ','Southern Asia'),
@@ -184,6 +184,8 @@ VALUES
  ('Europe','Serbia','Southern Europe'),
  ('Europe','Moldova','Eastern Europe'),
  ('Europe','Kosovo','Southern Europe'),
+ ('Europe','Austria','Central Europe'),
+ ('Europe','Russia','Eastern Europe'),
  ('Australia','Australia ','Australia and New Zealand'),
  ('Australia','New Zealand','Australia and New Zealand'),
  ('Australia','Papua New Guinea','Melanesia'),
