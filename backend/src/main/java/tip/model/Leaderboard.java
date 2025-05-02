@@ -7,17 +7,17 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Data
+@Table(name = "Leaderboard")
 public class Leaderboard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer lb_ID;
+    private Integer id;
 
     @Column(nullable = false)
-    private String lb_category;
+    private String category;
 
     @Column(nullable = false)
-    private Integer lb_rank;
+    private Integer rank;
 
     @ManyToOne
     @JoinColumn(name = "usr_ID", nullable = false)

@@ -7,25 +7,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Data
+@Table(name = "Subject")
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer subj_ID;
+    private Integer id;
 
     @Lob
     @Column(nullable = false)
-    private byte[] subj_image;
+    private byte[] image;
 
     @Column(nullable = false)
-    private String subj_category;
+    private String category;
 
     @Column(nullable = false)
-    private String subj_source;
+    private String sourceUrl;
 
     @Column(nullable = false)
-    private Integer subj_difficulty;
+    private Integer difficulty;
 
     @Column(nullable = false)
-    private String subj_added_by;
+    private String addedBy;
 }

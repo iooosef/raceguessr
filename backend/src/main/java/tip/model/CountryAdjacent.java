@@ -7,20 +7,20 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Data
 @IdClass(CountryAdjacentId.class)
+@Table(name = "CountryAdjacent")
 public class CountryAdjacent {
     @Id
-    private Integer cnt_ID_1;
+    private Integer id1;
 
     @Id
-    private Integer cnt_ID_2;
+    private Integer id2;
 
     @ManyToOne
-    @JoinColumn(name = "cnt_ID_1", insertable = false, updatable = false)
+    @JoinColumn(name = "id1", insertable = false, updatable = false)
     private Country country1;
 
     @ManyToOne
-    @JoinColumn(name = "cnt_ID_2", insertable = false, updatable = false)
+    @JoinColumn(name = "id2", insertable = false, updatable = false)
     private Country country2;
 }

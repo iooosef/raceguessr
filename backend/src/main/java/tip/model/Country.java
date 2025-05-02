@@ -7,18 +7,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Data
+@Table(name = "Country")
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cnt_ID;
+    private Long id;
 
     @Column(nullable = false)
-    private String cnt_name;
+    private String name;
 
     @Column(nullable = false)
-    private String cnt_region;
+    private String region;
 
     @Column(nullable = false)
-    private String cnt_continent;
+    private String continent;
 }

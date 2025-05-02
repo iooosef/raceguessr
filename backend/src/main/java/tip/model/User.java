@@ -7,30 +7,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Data
+@Table(name = "User")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer usr_ID;
+    private Integer id;
 
     @Column(nullable = false, unique = true)
-    private String usr_email;
+    private String email;
 
     @Column(nullable = false, unique = true)
-    private String usr_display_name;
+    private String displayName;
 
     @Column(nullable = false)
-    private String usr_password;
+    private String password;
 
     @Column(nullable = false)
-    private String usr_role;
+    private String role;
 
     @Column(nullable = false)
-    private String usr_gender;
+    private String gender;
 
     @ManyToOne
     @JoinColumn(name = "cnt_ID", nullable = false)
     private Country country;
-
-    private String usr_ethnicity;
 }

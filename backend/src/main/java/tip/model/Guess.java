@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Data
+@Table(name = "Guess")
 public class Guess {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer gss_ID;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "subj_ID", nullable = false)
@@ -22,8 +22,8 @@ public class Guess {
     private User user;
 
     @Column(nullable = false)
-    private Integer gss_score;
+    private Integer score;
 
     @Column(nullable = false)
-    private String gss_last_updated;
+    private String lastUpdateOn;
 }
