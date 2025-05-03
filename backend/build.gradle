@@ -46,3 +46,28 @@ bootJar {
 test {
     useJUnitPlatform()
 }
+
+task buildReact(type: NpmTask) {
+    workingDir = file('../frontend')
+    args = ['install']
+}
+
+task buildReactProd(type: NpmTask) {
+    dependsOn buildReact
+    workingDir = file('../frontend')
+    args = ['run', 'build']
+}
+
+task copyReactBuild(type: Copy) {
+    dependsOn buildReactProd
+    from "../frontend/dist"
+    into "src/main/resources/static"
+}
+
+tasks.named('bootRun') {
+    dependsOn copyReactBuild
+}
+
+tasks.named('processResources') {
+    dependsOn copyReactBuild
+}
