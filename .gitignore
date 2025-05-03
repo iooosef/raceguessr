@@ -31,7 +31,7 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-/src/main/resources/static/
+/backend/src/main/resources/static/
 
 
 ### STS ###
@@ -64,3 +64,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+*.bkp
