@@ -5,7 +5,8 @@ import plugin from 'flyonui/plugin';
 export default {
   content: [
     './src/**/*.{html,js,jsx,ts,tsx}',
-    './node_modules/flyonui/dist/js/accordion.js'
+    './node_modules/flyonui/dist/js/accordion.js',
+    './node_modules/flyonui/flyonui.js',
   ],
   safelist: [
     {
@@ -20,7 +21,7 @@ export default {
     flyonui,
     plugin
   ],flyonui: {
-    themes: ["light"]
+    themes: ["light", "black"],
   }
 }
 
