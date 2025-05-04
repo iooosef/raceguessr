@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -31,37 +32,41 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // CORS configuration
-            .cors(cors ->
-                    cors.configurationSource(request
-                            -> new CorsConfiguration().applyPermitDefaultValues()))
-            // Disable CSRF for LAN-only access
-            .csrf(csrf ->
-                    csrf.disable())
-            .authorizeHttpRequests(authz -> authz
-                    .requestMatchers("/",
-                        "/index.html",
-                        "/static/**",
-                        "/assets/**",
-                        "/login",
-                        "/register",
-                        "/auth/**",
-                        "/me",
-                        "/user/roles",
-                        "/config.json").permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/level-editor/**").hasAnyRole("LEVEL-EDITOR", "ADMIN")
-                    .anyRequest().authenticated()
-            )
-            .formLogin(form -> form
-                    .loginPage("/")
-                    .permitAll()
-            )
-            .logout(logout -> logout
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/")
-                    .permitAll()
-            );
+                // CORS configuration
+                .cors(cors -> cors.configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues()))
+
+                // Disable CSRF for LAN-only access
+                .csrf(AbstractHttpConfigurer::disable)
+
+                // Configure authorization rules
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/static/**",
+                                "/assets/**",
+                                "/login",
+                                "/register",
+                                "/auth/**",
+                                "/me",
+                                "/user/roles",
+                                "/reference-data/**",
+                                "/test",
+                                "/config.json"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                        .logoutSuccessUrl("/")
+                        .permitAll())
+                ;
+
         return http.build();
     }
+
 }
