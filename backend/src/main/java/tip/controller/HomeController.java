@@ -16,12 +16,12 @@ import java.util.List;
 @Controller
 @CrossOrigin(origins = "http://localhost:5173")
 public class HomeController {
-    @GetMapping(name = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> test() {
         return ResponseEntity.ok("Hello World");
     }
 
-    @GetMapping(name = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getMe(Authentication authentication) {
         if (authentication != null) {
             User user = new User();
