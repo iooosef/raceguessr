@@ -36,7 +36,7 @@ public class DataInitializer implements CommandLineRunner {
             adminUser.setEmail("josence22@gmail.com");
             adminUser.setDisplayName("ADMIN");
             adminUser.setPassword(passwordEncoder.encode("admin1234"));
-            adminUser.setGender(Gender.OTHERS.toString());
+            adminUser.setGender(Gender.OMIT.toString());
             try {
                 adminUser.setCountry(countryRepository.findByName("Philippines").get());
             } catch (Exception e) {
