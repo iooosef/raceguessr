@@ -52,6 +52,7 @@ public class SecurityConfiguration {
                                 "/user/roles",
                                 "/reference-data/**",
                                 "/test",
+                                "/subjects/**",
                                 "/config.json"
                         ).permitAll()
                         .anyRequest().authenticated()

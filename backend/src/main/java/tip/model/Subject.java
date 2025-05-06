@@ -13,12 +13,11 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Lob
-    @Column(nullable = false)
-    private byte[] image;
-
     @Column(nullable = false)
     private String category;
+
+    @Column(nullable = false)
+    private String tag;
 
     @Column(nullable = false)
     private String sourceUrl;

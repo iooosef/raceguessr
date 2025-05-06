@@ -65,7 +65,7 @@ task copyReactBuild(type: Copy) {
 }
 
 tasks.named('bootRun') {
-    dependsOn copyReactBuild
+//    dependsOn copyReactBuild
 }
 
 tasks.named('processResources') {
