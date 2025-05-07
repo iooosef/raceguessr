@@ -16,8 +16,9 @@ public class Subject {
     @Column(nullable = false)
     private String category;
 
-    @Column(nullable = false)
-    private String tag;
+    @ManyToOne
+    @JoinColumn(name = "tag_id", nullable = false)
+    private Tag tag;
 
     @Column(nullable = false)
     private String sourceUrl;
