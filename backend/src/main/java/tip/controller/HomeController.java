@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:5173")
 public class HomeController {
     @GetMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> test() {
