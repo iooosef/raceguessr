@@ -1,13 +1,38 @@
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+
 import MiniMap from "./components/MiniMap";
 import Login from "./Login";
 import Register from "./Register";
 import MainMenu from "./MainMenu";
 import '@fontsource-variable/roboto-condensed';
 
+import { ConfigProvider } from './util/ConfigContext';
+import { UserProvider } from './auth/UserContext'; 
+import ProtectedRoutes from './auth/ProtectedRoutes';
+
 export default function App() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Reinitialize FlyonUI components on page change
+    const loadFlyonui = async () => {
+      const flyonui = await import('flyonui/flyonui');
+      window.HSStaticMethods.autoInit();
+    };
+    loadFlyonui();
+  }, [location.pathname]);
+
   return (
     <div className="w-screen h-screen">
-      <MainMenu />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        <Route element={<ProtectedRoutes />}>
+              <Route path="/menu" element={<MainMenu />} />
+            </Route>
+      </Routes>
     </div>
   );
 }
