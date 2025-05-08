@@ -65,6 +65,7 @@ public class AuthController {
             HashMap<String, String> response = new HashMap<>();
             response.put("email", model.getEmail());
             response.put("role", role);
+            response.put("displayName", userRepository.findByEmail(model.getEmail()).get().getDisplayName());
             response.put("loginTimeStamp", loginTimeStamp);
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {

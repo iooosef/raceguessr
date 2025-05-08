@@ -31,12 +31,16 @@ export const UserProvider = ({ children }) => {
           }
           
           setUser(user); // Populate user context
-        } else if (!response.ok && window.location.pathname !== '/register') {
-          
-          setUser(null); // Session invalid or not logged in
-          if(window.location.pathname !== '/') {
-            window.location.href = '/'; // Redirect to login page
+        } else {
+          setUser(null);
+          setLoading(false);
+          if (
+            window.location.pathname !== '/' &&
+            window.location.pathname !== '/register'
+          ) {
+            window.location.href = '/';
           }
+          return;
         }
       } catch (error) {
         console.error(`Session validation failed @ ${serverUrl}/me:`, error);
@@ -51,7 +55,13 @@ export const UserProvider = ({ children }) => {
 
   const login = (userData) => {
     
-    setUser(userData);
+    const roles = userData.role?.replace(/[\[\]]/g, '').split(',') || [];
+    const normalizedUser = {
+      username: userData.email,
+      displayName: userData.displayName,
+      role: roles[0]
+    };
+    setUser(normalizedUser);
     // localStorage.setItem('user', JSON.stringify(userData));
   };
 
