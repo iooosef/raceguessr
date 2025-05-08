@@ -77,6 +77,7 @@ public class SecurityConfiguration {
                                 "/subjects/**",
                                 "/config.json"
                         ).permitAll()
+                        .requestMatchers("/levels/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(
