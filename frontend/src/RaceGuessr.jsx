@@ -67,8 +67,8 @@ const RaceGuessr = () => {
                     </a>
                 </div>
             </header>
-            <div>
-                <img src={`${serverUrl}/`} alt="" />
+            <div className='max-h-full pt-16'>
+                <img src={`${serverUrl}/subjects/A${currentIdx + 10}.jpg`} className='h-full max-w-full block m-auto' />
             </div>
             <MiniMap />
         </div>

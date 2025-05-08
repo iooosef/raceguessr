@@ -14,6 +14,7 @@ import { UserProvider } from './auth/UserContext';
 import ProtectedRoutes from './auth/ProtectedRoutes';
 import LevelSelect from './LevelSelect';
 import LevelTagSelect from './LevelTagSelect';
+import RaceGuessr from './RaceGuessr'
 
 export default function App() {
   const location = useLocation();
@@ -39,6 +40,7 @@ export default function App() {
               <Route path="/menu" element={<MainMenu />} />
               <Route path="/levels" element={<LevelSelect />} />
               <Route path="/levels/tags" element={<LevelTagSelect />} />
+              <Route path="/raceguessr" element={<RaceGuessr />} />
         </Route>
       </Routes>
     </div>

@@ -20,7 +20,7 @@ const LevelSelect = () => {
                 </div>
             </header>
             <div className='w-full h-full mt-16 p-4 grid gap-8 grid-cols-3'>
-                <a className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
+                <a onClick={() => navigate('/raceguessr', { state: { levelUrl: '/levels/quickplay' } })} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
                     transition-all duration-300 ease-in-out transform hover:scale-105'>
                     <h1 className='w-full font-guessr text-6xl'>Quick Play</h1>
                 </a>
@@ -29,7 +29,7 @@ const LevelSelect = () => {
                     transition-all duration-300 ease-in-out transform hover:scale-105'>
                     <h1 className='w-full font-guessr text-6xl'>Play by Category</h1>
                 </a>
-                <a className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
+                <a onClick={() => navigate('/raceguessr')} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
                     transition-all duration-300 ease-in-out transform hover:scale-105'>
                     <h1 className='w-full font-guessr text-6xl'>Free Play</h1>
                 </a>
