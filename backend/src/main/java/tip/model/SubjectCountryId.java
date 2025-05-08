@@ -6,6 +6,6 @@ import java.io.Serializable;
 
 @Data
 public class SubjectCountryId implements Serializable {
-    private Long subject;
-    private Long country;
+    private Subject subject;
+    private Country country;
 }
