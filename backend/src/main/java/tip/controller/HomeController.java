@@ -1,5 +1,7 @@
 package tip.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tip.model.ErrorResponse;
 import tip.model.User;
+import tip.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ public class HomeController {
 
         List<ErrorResponse> errors = new ArrayList<>();
         ErrorResponse error = new ErrorResponse();
-        error.setType("authentication_error");
+        error.setType(HttpStatus.UNAUTHORIZED.name());
         error.setMessage("User not authenticated");
         error.setType("model");
         errors.add(error);
