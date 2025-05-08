@@ -10,7 +10,7 @@ import tip.repository.CountryRepository;
 
 @RestController
 @RequestMapping("/reference-data")
-public class ReferenceData {
+public class ReferenceDataController {
     @Autowired
     private CountryRepository countryRepository;
 
