@@ -10,3 +10,9 @@
 .logo-banner-container {
     max-width: 500px;
 }
+
+.font-guessr {
+    font-family: 'Roboto Condensed Variable', sans-serif;
+    font-style: italic;
+    font-weight: 900;
+}
