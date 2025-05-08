@@ -3,13 +3,27 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import worldGeoJson from "../assets/countries.geo.json";
 
-export default function MiniMap() {
+import { useConfig } from '../util/ConfigContext';
+
+export default function MiniMap({ subject, currentIdx, setCurrentIdx }) {
+  const {serverUrl} = useConfig();
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
   const geoJsonLayer = useRef(null);
   const [expanded, setExpanded] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const zoomControlRef = useRef(null);
+
+  const [ countryCount, setCountryCount ] = useState(0);
+  const [ selectedCountries, setSelectedCountries ] = useState([]);
+  const selectedCountriesRef = useRef([]);
+
+  const defaultStyle = {
+    fillColor: "lightblue",
+    weight: 1,
+    color: "white",
+    fillOpacity: 0.7
+  }
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -28,31 +42,37 @@ export default function MiniMap() {
     }).addTo(mapInstance.current);
 
     geoJsonLayer.current = L.geoJSON(worldGeoJson, {
-      style: () => ({
-        fillColor: "lightblue",
-        weight: 1,
-        color: "white",
-        fillOpacity: 0.7,
-      }),
+      style: () => (defaultStyle),
       onEachFeature: (feature, layer) => {
         layer.on("click", e => {
-          if (geoJsonLayer.current) {
-            geoJsonLayer.current.resetStyle();
+          const country = e.target.feature.properties;
+          const alreadySelected = selectedCountriesRef.current.some(c => c.id === country.id);
+          if (alreadySelected) {
+            const newSelection = selectedCountriesRef.current.filter(c => c.id !== country.id);
+            setSelectedCountries(newSelection);
+            e.target.setStyle(defaultStyle);
+          } else {
+            if (selectedCountriesRef.current.length >= countryCount) return;
+            setSelectedCountries([...selectedCountriesRef.current, country]);
+            e.target.setStyle({
+              fillColor: "red",
+              fillOpacity: 0.5,
+            });
           }
-          e.target.setStyle({
-            fillColor: "red",
-            fillOpacity: 0.5,
-          });
-          console.log("e.target.feature.properties: ", e.target.feature.properties);
-          setSelectedCountry(e.target.feature.properties);
         });
-      },
+      }
+      
     }).addTo(mapInstance.current);
 
     return () => {
       mapInstance.current.remove();
     };
-  }, []);
+  }, [countryCount]);
+
+  useEffect(() => {
+    selectedCountriesRef.current = selectedCountries;
+    console.log("selectedCountries", selectedCountries)
+  }, [selectedCountries])
 
   useEffect(() => {
     if (!mapInstance.current) return;
@@ -85,6 +105,28 @@ export default function MiniMap() {
 
     
   }, [expanded]);
+
+  // fetching the number of correct answers
+  useEffect(() => {
+    if (!serverUrl || !subject) return;
+
+    fetch(`${serverUrl}/subjects/country-count?id=${subject.id}`, {
+      method: 'GET', 
+      credentials: 'include'
+    })
+    .then(res => res.json())
+    .then(data => {
+      setCountryCount(data)
+    })
+    .catch(err => {
+        console.error('Error fetching levels: ', err)
+    });
+    
+  }, [serverUrl, subject]);
+
+  const guessClick = () => {
+    setCurrentIdx(currentIdx+1)
+  }
 
   return (
     <div className="absolute bottom-4 right-4 
@@ -121,9 +163,14 @@ export default function MiniMap() {
           </div>
         </div>  
       </div>
-      <button className="btn btn-gradient btn-primary btn-lg min-w-[300px]
+      <button onClick={guessClick} className="btn btn-gradient btn-primary btn-lg min-w-[300px]
          transition-all duration-300 ease-in-out transform hover:scale-105">
-        Guess {selectedCountry != null ? `: ${selectedCountry. name}` : ''}</button>
+        Guess{selectedCountries.length > 0
+          ? `: ${selectedCountries.map(c => c.name).join(", ")}`
+          : countryCount > 0
+            ? ` ${countryCount} ${countryCount === 1 ? 'country' : 'countries'}`
+            : ''}
+      </button>
     </div>
   );
 }
