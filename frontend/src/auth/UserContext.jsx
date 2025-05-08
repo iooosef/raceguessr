@@ -22,12 +22,13 @@ export const UserProvider = ({ children }) => {
         });
         if (response.ok) {
           const userData = await response.json();
-          console.log('User data roles:', userData.userRoles);
-          const roles = userData.userRoles.replace(/[\[\]]/g, '').split(',');
+          
+          const roles = userData.role.replace(/[\[\]]/g, '').split(',');
           const user = {
-            username: userData.userName,
+            username: userData.email,
             role: roles[0]
           }
+          
           setUser(user); // Populate user context
         } else if (!response.ok && window.location.pathname !== '/register') {
           
@@ -48,7 +49,7 @@ export const UserProvider = ({ children }) => {
   }, [serverUrl]);
 
   const login = (userData) => {
-    console.log('Login user data:', userData);
+    
     setUser(userData);
     // localStorage.setItem('user', JSON.stringify(userData));
   };

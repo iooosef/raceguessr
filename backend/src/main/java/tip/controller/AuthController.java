@@ -30,7 +30,8 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @RequestMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest model) {
+    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest model,
+                                              HttpServletRequest request) {
         ErrorResponse errorResponse = new ErrorResponse();
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -39,7 +40,12 @@ public class AuthController {
                             model.getPassword()
                     )
             );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
+
+            HttpSession session = request.getSession(true);
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+
             String role = authentication.getAuthorities().stream().findFirst().get().getAuthority();
             String loginTimeStamp = java.time.LocalDateTime.now().toString();
 
@@ -61,7 +67,8 @@ public class AuthController {
             errorResponse.setMessage("An unexpected error occurred");
             errorResponse.setTarget("model");
         }
-        return ResponseEntity.status(401).body(errorResponse);
+        HttpStatus status = HttpStatus.valueOf(errorResponse.getType());
+        return ResponseEntity.status(status).body(errorResponse);
     }
 
 //    @RequestMapping(value = "/register", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -1,16 +1,25 @@
 package tip.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import tip.service.RaceguessrUserDetailsService;
+
+import java.util.Arrays;
 
 /*
  * SecurityConfiguration
@@ -30,6 +39,14 @@ public class SecurityConfiguration {
         return configuration.getAuthenticationManager();
     }
     @Bean
+    public DaoAuthenticationProvider authenticationProvider(RaceguessrUserDetailsService userDetailsService,
+                                                            PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 // CORS configuration
@@ -38,6 +55,10 @@ public class SecurityConfiguration {
                 // Disable CSRF for LAN-only access
                 .csrf(AbstractHttpConfigurer::disable)
 
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+
                 // Configure authorization rules
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -45,10 +66,11 @@ public class SecurityConfiguration {
                                 "/index.html",
                                 "/static/**",
                                 "/assets/**",
+                                "/me",
+                                "/auth/**",
                                 "/login",
                                 "/register",
                                 "/auth/**",
-                                "/me",
                                 "/user/roles",
                                 "/reference-data/**",
                                 "/test",
@@ -57,20 +79,16 @@ public class SecurityConfiguration {
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .loginPage("/")
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/")
-                        .permitAll())
-                ;
+                .formLogin(
+                        form -> form
+                                .loginPage("/") // your custom login page path
+                                .permitAll()
+                );
 
         return http.build();
     }
 
-@Bean
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));

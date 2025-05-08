@@ -15,16 +15,30 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/{path:[^\\.]*}")
+    public String forward() {
+        return "forward:/index.html";
+    }
+
+    @GetMapping({"/", "/login", "/register"})
+    public String home() {
+        return "forward:/index.html";
+    }
+
     @GetMapping(value = "/test", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<?> test() {
         return ResponseEntity.ok("Hello World");
     }
 
-    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/me")
     public ResponseEntity<?> getMe(Authentication authentication) {
         if (authentication != null) {
             User user = new User();
             user.setEmail(authentication.getName());
+            user.setDisplayName(userRepository.findByEmail(user.getEmail()).get().getDisplayName());
             user.setRole(authentication.getAuthorities().toString());
             return ResponseEntity.ok(user);
         }
