@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import bgVideo from './assets/menu-bg.mp4';
 import bannerLogo from './assets/banner-logo.png'
 import bannerTagline from './assets/banner-tagline.png'
@@ -9,10 +10,10 @@ import { useUser } from './auth/UserContext';
 import ProfileHeader from './components/ProfileHeader';
 
 const MainMenu = () => {
-    console.log("MainMenu here")
     const {serverUrl} = useConfig();
     const { user, loading } = useUser();
     const [isUserLoaded, setIsUserLoaded] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user || loading === false) {
@@ -48,7 +49,7 @@ const MainMenu = () => {
             <header className='w-full fixed top-0 flex justify-between p-4'>
                 <ProfileHeader />
                 <div>
-                    <a href='/logout' type="button">
+                    <a onClick={() => navigate('/logout')}  type="button">
                         <img src={SignOutIcon} alt="sign out button" className='h-[50px] transition-all duration-300 ease-in-out transform hover:scale-105' />
                     </a>
                 </div>
@@ -59,9 +60,9 @@ const MainMenu = () => {
                     <img src={bannerTagline} alt="logo" className="mt-2" />
                 </div>
                 <nav className='flex flex-col justify-center gap-5' style={{fontFamily: 'Roboto Condensed Variable'}}>
-                    <button className='rounded-full transition-all duration-300 ease-in-out transform hover:scale-105' 
-                        style={{...menuBtnStyle, background: '#2EBE33'}}>PLAY</button>
-                    <button className='rounded-full transition-all duration-300 ease-in-out transform hover:scale-105' 
+                    <a onClick={() => navigate('/levels')} className='rounded-full text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
+                        style={{...menuBtnStyle, background: '#2EBE33'}}>PLAY</a>
+                    <button className='rounded-full text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
                         style={{...menuBtnStyle, background: '#5d5d5d'}}>LEADERBOARDS</button>
                 </nav>
             </main>

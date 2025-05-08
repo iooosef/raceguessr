@@ -91,7 +91,7 @@ const Register = () => {
         <div className="w-screen h-screen bg-guessr-register flex flex-col items-center " data-theme="light"
             style={{backgroundImage: `url(${bgImg})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat'}}>
             <div className='w-full pr-5 pt-5 flex justify-end opacity-90'>                
-                <a href="/" className="btn rounded-full transition-all duration-300 ease-in-out transform hover:scale-105">Log In</a>
+                <a onClick={() => navigate('/')}  className="btn rounded-full transition-all duration-300 ease-in-out transform hover:scale-105">Log In</a>
             </div>
             <div className="max-w-[450px] mt-[-80px] mb-[50px]">
                 <img src={bannerLogo} alt="logo" style={{marginBottom: '-100px'}}/>

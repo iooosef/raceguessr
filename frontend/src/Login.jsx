@@ -60,7 +60,7 @@ const Login = () => {
     return (
         <div className="w-screen h-screen bg-guessr flex flex-col items-center " data-theme="light">
             <div className='w-full pr-5 pt-5 flex justify-end opacity-90'>                
-                <a href='/register' className="btn rounded-full transition-all duration-300 ease-in-out transform hover:scale-105">Sign Up</a>
+                <a onClick={() => navigate('/register')}  className="btn rounded-full transition-all duration-300 ease-in-out transform hover:scale-105">Sign Up</a>
             </div>
             <div className="logo-banner-container mb-[50px]">
                 <img src={bannerLogo} alt="logo" className="" style={{marginBottom: '-100px'}}/>
