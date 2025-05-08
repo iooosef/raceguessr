@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tip.model.ErrorResponse;
 import tip.model.Subject;
+import tip.model.SubjectCountry;
 import tip.repository.SubjectCountryRepository;
 import tip.repository.SubjectRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -48,5 +50,19 @@ public class SubjectController {
         }
         int count = subjectCountryRepository.countBySubject(id);
         return ResponseEntity.ok(count);
+    }
+
+    @GetMapping(value = "/countries", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getCountriesOfSubjectById(@RequestParam Integer id) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        Optional<Subject> subject = subjectRepository.findById(id);
+        if (!subject.isPresent()) {
+            errorResponse.setMessage(HttpStatus.NOT_FOUND.name());
+            errorResponse.setMessage("Subject not found");
+            errorResponse.setTarget("model");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+        var countriesOfSubject = subjectCountryRepository.findBySubject_Id(id.longValue());
+        return ResponseEntity.ok(countriesOfSubject);
     }
 }
