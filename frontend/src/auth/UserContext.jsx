@@ -25,7 +25,8 @@ export const UserProvider = ({ children }) => {
           
           const roles = userData.role.replace(/[\[\]]/g, '').split(',');
           const user = {
-            username: userData.email,
+            username: userData.email,            
+            displayName: userData.displayName,
             role: roles[0]
           }
           
