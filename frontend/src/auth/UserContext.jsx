@@ -29,7 +29,8 @@ export const UserProvider = ({ children }) => {
             role: roles[0]
           }
           setUser(user); // Populate user context
-        } else {
+        } else if (!response.ok && window.location.pathname !== '/register') {
+          
           setUser(null); // Session invalid or not logged in
           if(window.location.pathname !== '/') {
             window.location.href = '/'; // Redirect to login page
