@@ -68,3 +68,4 @@ out/
 *.bkp
 
 /docs/images_downloader/**
+/docs/sync_countries/**
