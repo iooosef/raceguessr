@@ -12,6 +12,8 @@ import '@fontsource-variable/roboto-condensed';
 import { ConfigProvider } from './util/ConfigContext';
 import { UserProvider } from './auth/UserContext'; 
 import ProtectedRoutes from './auth/ProtectedRoutes';
+import LevelSelect from './LevelSelect';
+import LevelTagSelect from './LevelTagSelect';
 
 export default function App() {
   const location = useLocation();
@@ -35,6 +37,8 @@ export default function App() {
 
         <Route element={<ProtectedRoutes  allowedRoles={['ADMIN', 'USER']} />}>
               <Route path="/menu" element={<MainMenu />} />
+              <Route path="/levels" element={<LevelSelect />} />
+              <Route path="/levels/tags" element={<LevelTagSelect />} />
         </Route>
       </Routes>
     </div>
