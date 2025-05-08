@@ -42,6 +42,7 @@ const RaceGuessr = () => {
 
     useEffect(() => {
         if (!serverUrl || !level) return;
+        console.log(level)
         const currentId = level[currentIdx].id
         fetch(`${serverUrl}/subjects?id=${currentId}`, {
             method: 'GET', 
@@ -68,9 +69,14 @@ const RaceGuessr = () => {
                 </div>
             </header>
             <div className='max-h-full pt-16'>
-                <img src={`${serverUrl}/subjects/A${currentIdx + 10}.jpg`} className='h-full max-w-full block m-auto' />
+                {level && (
+                    <img
+                        src={`${serverUrl}/subjects/A${level[currentIdx].id + 9}.jpg`}
+                        className="h-full max-w-full block m-auto"
+                    />
+                )}
             </div>
-            <MiniMap />
+            <MiniMap subject={subject} currentIdx={currentIdx} setCurrentIdx={setCurrentIdx} />
         </div>
     )
 }
