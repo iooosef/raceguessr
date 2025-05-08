@@ -5,6 +5,8 @@ import MiniMap from "./components/MiniMap";
 import Login from "./Login";
 import Register from "./Register";
 import MainMenu from "./MainMenu";
+import Me from "./auth/Me";
+import Logout from './auth/Logout';
 import '@fontsource-variable/roboto-condensed';
 
 import { ConfigProvider } from './util/ConfigContext';
@@ -28,10 +30,12 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/me" element={<Me />} />
 
-        <Route element={<ProtectedRoutes />}>
+        <Route element={<ProtectedRoutes  allowedRoles={['ADMIN', 'USER']} />}>
               <Route path="/menu" element={<MainMenu />} />
-            </Route>
+        </Route>
       </Routes>
     </div>
   );
