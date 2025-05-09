@@ -2,6 +2,7 @@ package tip.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import tip.model.Country;
 
 import java.util.List;
 
@@ -10,5 +11,5 @@ import java.util.List;
 public class GuessResponse {
     private Boolean isCorrect;
     private Integer score;
-    private List<Integer> correct_countries;
+    private List<Country> correct_countries;
 }

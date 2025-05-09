@@ -56,6 +56,9 @@ public class GuessController {
         }
         // check if guesses is correct
         List<SubjectCountry> correctCountries = subjectCountryRepository.findBySubject_Id(guess.getSubject_id().longValue());
+        List<Country> correctCountriesONLY = correctCountries.stream()
+                .map(SubjectCountry::getCountry)
+                .toList();
         List<Integer> correctCountryIds = correctCountries.stream()
                 .map(sc -> sc.getCountry().getId().intValue())
                 .collect(Collectors.toList());
@@ -101,7 +104,7 @@ public class GuessController {
         GuessResponse response = new GuessResponse();
         response.setIsCorrect(isEqual);
         response.setScore(score > 5000 ? 5000 : score);
-        response.setCorrect_countries(correctCountryIds);
+        response.setCorrect_countries(correctCountriesONLY);
         return ResponseEntity.ok(response);
     }
 }
