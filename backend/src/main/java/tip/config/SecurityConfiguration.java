@@ -79,7 +79,8 @@ public class SecurityConfiguration {
                         ).permitAll()
                         .requestMatchers(
                                 "/levels/**",
-                                "/subjects/**").authenticated()
+                                "/subjects/**",
+                                "/guess/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(
