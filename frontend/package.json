@@ -13,6 +13,7 @@
     "@fontsource-variable/roboto-condensed": "^5.2.5",
     "flyonui": "^1.1.0",
     "leaflet": "^1.9.4",
+    "motion": "^12.10.4",
     "postcss-cli": "^11.0.0",
     "react": "^19.0.0-rc.1",
     "react-dom": "^19.0.0-rc.1",
