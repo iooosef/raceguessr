@@ -7,11 +7,11 @@ const ProtectedRoutes = ({ allowedRoles }) => {
     if (loading) return <p>Loading... PR</p>;
 
     if (!user) {
+        console.log("redirected from ProtectedRoutes")
         return <Navigate to="/" />;
     }
 
     const hasRole = allowedRoles ? allowedRoles.includes(user?.role) : true;
-    console.log(hasRole)
     if (!hasRole) {
         return (
             <div className="w-screen h-screen flex flex-col justify-center items-center">                

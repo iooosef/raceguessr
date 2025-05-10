@@ -78,13 +78,11 @@ public class GuessController {
                 for (var answerID : correctCountryIds) {
                     if (guessID.equals(answerID)) {
                         score += FULL_SCORE / answersCount;
-                    } else {
-                        if (countryRepository.isSameContinent(guessID.longValue(), answerID.longValue())) {
-                            score += CONTINENT_SCORE / answersCount;
-                        }
-                        if (countryRepository.isSameRegion(guessID.longValue(), answerID.longValue())) {
-                            score += REGION_SCORE / answersCount;
-                        }
+                    } else if (countryRepository.isSameRegion(guessID.longValue(), answerID.longValue())) {
+                        score += REGION_SCORE / answersCount;
+                        score += CONTINENT_SCORE / answersCount;
+                    } else if (countryRepository.isSameContinent(guessID.longValue(), answerID.longValue())) {
+                        score += CONTINENT_SCORE / answersCount;
                     }
                 }
             }
