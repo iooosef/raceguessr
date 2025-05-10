@@ -38,7 +38,7 @@ const RaceGuessr = () => {
     }, [serverUrl, levelUrl]);
 
     useEffect(() => {
-        if (!serverUrl || !level) return;
+        if (!serverUrl || !level || !level[currentIdx]) return;
         const currentId = level[currentIdx].id
         fetch(`${serverUrl}/subjects?id=${currentId}`, {
             method: 'GET', 
@@ -51,7 +51,7 @@ const RaceGuessr = () => {
         .catch(err => {
             console.error('Error fetching subject: ', err)
         });
-    }, [currentIdx, level]);
+    }, [currentIdx, level, serverUrl]);
     
     return(
         <div className="w-screen h-full p-6 bg-guessr flex flex-col items-center " data-theme="light">            
@@ -65,14 +65,14 @@ const RaceGuessr = () => {
                 </div>
             </header>
             <div className='max-h-full pt-16'>
-                {level && (
+                {level && level[currentIdx] && (
                     <img
                         src={`${serverUrl}/subjects/A${level[currentIdx].id + 9}.jpg`}
                         className="h-full max-w-full block m-auto"
                     />
                 )}
             </div>
-            { subject && level && currentIdx (
+            { subject && level && currentIdx && (
                 <MiniMap subject={subject} currentIdx={currentIdx} setCurrentIdx={setCurrentIdx} level={level} />
             )}
         </div>
