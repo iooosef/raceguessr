@@ -10,10 +10,7 @@ const RaceGuessr = () => {
     // if levelUrl is null, it means infinite play
     const location = useLocation();
     const { levelUrl = null } = location.state || {};
-    console.log("🤞levelUrl: ", levelUrl);
     const {serverUrl} = useConfig();
-    const { user, loading } = useUser();
-    const [isUserLoaded, setIsUserLoaded] = useState(false);
     const navigate = useNavigate();
 
     const [level, setLevel] = useState(null);
@@ -25,7 +22,7 @@ const RaceGuessr = () => {
         if (hasFetched.current || !serverUrl || !levelUrl) return;
     
         hasFetched.current = true;
-    
+        // FETCH LIST OF LEVELS
         fetch(`${serverUrl}${levelUrl}`, {
             method: 'GET', 
             credentials: 'include'
@@ -42,7 +39,6 @@ const RaceGuessr = () => {
 
     useEffect(() => {
         if (!serverUrl || !level) return;
-        console.log(level)
         const currentId = level[currentIdx].id
         fetch(`${serverUrl}/subjects?id=${currentId}`, {
             method: 'GET', 
@@ -76,7 +72,9 @@ const RaceGuessr = () => {
                     />
                 )}
             </div>
-            <MiniMap subject={subject} currentIdx={currentIdx} setCurrentIdx={setCurrentIdx} />
+            { subject && level && currentIdx (
+                <MiniMap subject={subject} currentIdx={currentIdx} setCurrentIdx={setCurrentIdx} level={level} />
+            )}
         </div>
     )
 }
