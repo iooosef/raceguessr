@@ -24,6 +24,9 @@ import javax.swing.text.html.Option;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.ArrayList;
+
 
 @RestController
 @RequestMapping("/levels")
@@ -34,8 +37,6 @@ public class LevelController {
     SubjectRepository subjectRepository;
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    SortService sortService;
     @Autowired
     SubjectService subjectService;
 
@@ -50,8 +51,8 @@ public class LevelController {
         User user = userRepository.findByEmail(email).get();
         int user_Id = user.getId();
 
-        List<SubjectDifficulty> quickplayRounds = subjectService.getTenSubjectIDs((long) user_Id);
-        sortService.mergeSort(quickplayRounds, Comparator.comparingInt(SubjectDifficulty::getDifficulty));
+        List<SubjectDifficulty> quickplayRounds = subjectService.getTenSubjectIDs(user_Id);
+        SortService.mergeSort(quickplayRounds, Comparator.comparingInt(SubjectDifficulty::getDifficulty));
         return ResponseEntity.ok(quickplayRounds);
     }
 
@@ -68,8 +69,8 @@ public class LevelController {
         List<Subject> subjects = subjectRepository.findSubjectByTag(tag.get());
         List<SubjectDifficulty> level = subjects.stream()
                 .map(s -> new SubjectDifficulty(s.getId(), s.getDifficulty()))
-                .toList();
-        sortService.mergeSort(level, Comparator.comparingInt(SubjectDifficulty::getDifficulty));
+                .collect(Collectors.toCollection(ArrayList::new));
+        SortService.mergeSort(level, Comparator.comparingInt(SubjectDifficulty::getDifficulty));
         return ResponseEntity.ok(level);
     }
 

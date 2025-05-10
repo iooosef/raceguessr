@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public class SortService {
     public static <T> void mergeSort(List<T> list, Comparator<T> comparator) {
-        if (list.size() <= 1) return;
+        if (list == null || list.size() <= 1) return;
 
         int mid = list.size() / 2;
         List<T> left = new ArrayList<>(list.subList(0, mid));
@@ -23,18 +23,19 @@ public class SortService {
     }
 
     private static <T> void merge(List<T> list, List<T> left, List<T> right, Comparator<T> comparator) {
-        int i = 0, j = 0, k = 0;
+        list.clear();
+        int i = 0, j = 0;
 
         while (i < left.size() && j < right.size()) {
             if (comparator.compare(left.get(i), right.get(j)) <= 0) {
-                list.set(k++, left.get(i++));
+                list.add(left.get(i++));
             } else {
-                list.set(k++, right.get(j++));
+                list.add(right.get(j++));
             }
         }
 
-        while (i < left.size()) list.set(k++, left.get(i++));
-        while (j < right.size()) list.set(k++, right.get(j++));
+        while (i < left.size()) list.add(left.get(i++));
+        while (j < right.size()) list.add(right.get(j++));
     }
 
     public static <T> void heapSort(List<T> list, Comparator<T> comparator) {
