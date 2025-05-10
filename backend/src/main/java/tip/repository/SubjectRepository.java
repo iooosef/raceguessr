@@ -10,17 +10,17 @@ import tip.model.Tag;
 import java.util.List;
 
 public interface SubjectRepository extends JpaRepository<Subject, Integer> {
-    @Query("SELECT s FROM Subject s " +
+    @Query(value = "SELECT s FROM Subject s " +
             "WHERE s.id NOT IN (" +
             "SELECT g.subject.id FROM Guess g WHERE g.user.id = :user_id) " +
             "ORDER BY RANDOM()")
-    List<Subject> findRandomSubjectsUnansweredBy(@Param("user_id") Long userId, Pageable pageable);
+    List<Subject> findRandomSubjectsUnansweredBy(@Param("user_id") Integer userId, Pageable pageable);
 
-    @Query("SELECT s FROM Subject s " +
+    @Query(value = "SELECT s FROM Subject s " +
             "WHERE s.id IN (" +
             "SELECT g.subject.id FROM Guess g WHERE g.user.id = :user_id) " +
             "ORDER BY RANDOM()")
-    List<Subject> findRandomSubjectsAnsweredBy(@Param("user_id") Long userId, Pageable pageable);
+    List<Subject> findRandomSubjectsAnsweredBy(@Param("user_id") Integer userId, Pageable pageable);
 
     List<Subject> findSubjectByTag(Tag tag);
 }

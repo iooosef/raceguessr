@@ -13,12 +13,12 @@ import java.util.Optional;
 public interface CountryRepository extends JpaRepository<Country, Integer> {
     Optional<Country> findByName(String name);
 
-    @Query("SELECT CASE WHEN c1.continent = c2.continent THEN true ELSE false END " +
+    @Query(value = "SELECT CASE WHEN c1.continent = c2.continent THEN true ELSE false END " +
             "FROM Country c1, Country c2 " +
             "WHERE c1.id = :id1 AND c2.id = :id2")
     Boolean isSameContinent(@Param("id1") Long id1, @Param("id2") Long id2);
 
-    @Query("SELECT CASE WHEN c1.region = c2.region THEN true ELSE false END " +
+    @Query(value = "SELECT CASE WHEN c1.region = c2.region THEN true ELSE false END " +
             "FROM Country c1, Country c2 " +
             "WHERE c1.id = :id1 AND c2.id = :id2")
     Boolean isSameRegion(@Param("id1") Long id1, @Param("id2") Long id2);
