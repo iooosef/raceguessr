@@ -4,7 +4,7 @@ import { useConfig } from '../util/ConfigContext';
 
 import SVGLoadHorizontal from './SVGLoadHorizontal'
 
-const ProfileHeader = ({headerText}) => {
+const ProfileHeader = ({ headerText, updateProp }) => {
     const { user, loading } = useUser();
     const {serverUrl} = useConfig();
     const [isUserLoaded, setIsUserLoaded] = useState(false);
@@ -15,10 +15,10 @@ const ProfileHeader = ({headerText}) => {
             setIsUserLoaded(true);
         }
     }, [user, loading]);
-
+    console.log("updateProp", updateProp)
     useEffect(() => {
         console.log("user", user)
-        if (!serverUrl || user.id ) return;
+        if (!serverUrl || user?.id ) return;
         fetch(`${serverUrl}/subjects/score/total`, {
             method: 'GET', 
             credentials: 'include'
@@ -31,7 +31,7 @@ const ProfileHeader = ({headerText}) => {
             console.error('Error fetching score: ', err)
         });
 
-    }, [serverUrl])
+    }, [serverUrl, updateProp])
 
     return (
         <div className='flex font-guessr gap-8'>

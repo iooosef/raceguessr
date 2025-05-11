@@ -44,6 +44,14 @@ const RaceGuessr = () => {
 
     useEffect(() => {
         if (!serverUrl || !level || !level[currentIdx]) return;
+        
+        // for endlessMode, after exhausting 10 rounds per level, regenerate a new set of levels
+        // aka endless mode
+        if (endlessMode && currentIdx === level.length - 1) {
+            fetchLevels()
+        }
+        console.log("currentIdx", currentIdx)
+
         const currentId = level[currentIdx].id
         fetch(`${serverUrl}/subjects?id=${currentId}`, {
             method: 'GET', 
@@ -57,15 +65,6 @@ const RaceGuessr = () => {
             console.error('Error fetching subject: ', err)
         });
     }, [currentIdx, level, serverUrl]);
-
-    useEffect(() => {
-        if (!serverUrl || !level || !level[currentIdx]) return;
-        // for endlessMode, after exhausting 10 rounds per level, regenerate a new set of levels
-        // aka endless mode
-        if (endlessMode && currentIdx === level.length - 1) {
-            fetchLevels()
-        }
-    }, [currentIdx])
     
     return(
         <div className="w-screen h-full p-6 bg-guessr flex flex-col items-center justify-between" data-theme="light">            
@@ -76,7 +75,7 @@ const RaceGuessr = () => {
                     : levelUrl !== null
                       ? `Guess the country (${currentIdx + 1}/${level?.length})`
                       : 'Guess the country'
-                } />
+                } updateProp={currentIdx} />
                 <div>
                     <a onClick={() => navigate('/levels')}  type="button">
                         <SVGBack className='h-[50px] text-white font-bold text-4xl cursor-pointer
