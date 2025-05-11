@@ -96,7 +96,7 @@ public class GuessController {
         guessAttempt.setScore(score);
         String timestamp = java.time.LocalDateTime.now().toString();
         guessAttempt.setLastUpdateOn(timestamp);
-        guessRepository.save(guessAttempt);
+        saveOrUpdateGuess(guessAttempt);
 
         // response
         GuessResponse response = new GuessResponse();
@@ -104,5 +104,18 @@ public class GuessController {
         response.setScore(score > 5000 ? 5000 : score);
         response.setCorrect_countries(correctCountriesONLY);
         return ResponseEntity.ok(response);
+    }
+
+    private Guess saveOrUpdateGuess(Guess guess) {
+        Optional<Guess> existing = guessRepository.findByUserAndSubject(guess.getUser(), guess.getSubject());
+        String timestamp = java.time.LocalDateTime.now().toString();
+        if (existing.isPresent()) {
+            Guess existingGuess = existing.get();
+            int higherScore = existingGuess.getScore() > guess.getScore() ? existingGuess.getScore() : guess.getScore();
+            existingGuess.setScore(guess.getScore());
+            existingGuess.setLastUpdateOn(timestamp);
+            return guessRepository.save(existingGuess);
+        }
+        return guessRepository.save(guess);
     }
 }
