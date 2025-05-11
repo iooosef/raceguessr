@@ -10,6 +10,7 @@ const RaceGuessr = () => {
     // if levelUrl is null, it means infinite play
     const location = useLocation();
     const { levelUrl = null } = location.state || {};
+    const { endlessMode = false } = location.state || {};
     const {serverUrl} = useConfig();
     const navigate = useNavigate();
 
@@ -21,6 +22,10 @@ const RaceGuessr = () => {
     useEffect(() => {
         if (hasFetched.current || !serverUrl || !levelUrl) return;
     
+        fetchLevels()
+    }, [serverUrl, levelUrl]);
+
+    function fetchLevels() {
         hasFetched.current = true;
         // FETCH LIST OF LEVELS
         fetch(`${serverUrl}${levelUrl}`, {
@@ -35,7 +40,7 @@ const RaceGuessr = () => {
         .catch(err => {
             console.error('Error fetching levels: ', err)
         });
-    }, [serverUrl, levelUrl]);
+    }
 
     useEffect(() => {
         if (!serverUrl || !level || !level[currentIdx]) return;
@@ -52,11 +57,26 @@ const RaceGuessr = () => {
             console.error('Error fetching subject: ', err)
         });
     }, [currentIdx, level, serverUrl]);
+
+    useEffect(() => {
+        if (!serverUrl || !level || !level[currentIdx]) return;
+        // for endlessMode, after exhausting 10 rounds per level, regenerate a new set of levels
+        // aka endless mode
+        if (endlessMode && currentIdx === level.length - 1) {
+            fetchLevels()
+        }
+    }, [currentIdx])
     
     return(
-        <div className="w-screen h-full p-6 bg-guessr flex flex-col items-center " data-theme="light">            
+        <div className="w-screen h-full p-6 bg-guessr flex flex-col items-center justify-between" data-theme="light">            
             <header className='w-full fixed top-0 flex justify-between p-4 z-10'>
-                <ProfileHeader headerText={'Guess the country ' + (levelUrl !== null ? `(${currentIdx + 1}/${level?.length})` : '')} />
+                <ProfileHeader headerText={
+                    endlessMode
+                    ? 'Endless Mode'
+                    : levelUrl !== null
+                      ? `Guess the country (${currentIdx + 1}/${level?.length})`
+                      : 'Guess the country'
+                } />
                 <div>
                     <a onClick={() => navigate('/levels')}  type="button">
                         <SVGBack className='h-[50px] text-white font-bold text-4xl cursor-pointer
@@ -64,7 +84,7 @@ const RaceGuessr = () => {
                     </a>
                 </div>
             </header>
-            <div className='max-h-full pt-16'>
+            <div id="image-subject" className='max-h-full pt-16'>
                 {level && level[currentIdx] && (
                     <img
                         src={`${serverUrl}/subjects/A${level[currentIdx].id + 9}.jpg`}
@@ -72,7 +92,13 @@ const RaceGuessr = () => {
                     />
                 )}
             </div>
-            { subject && level && currentIdx && (
+            { subject && subject.category && subject.tag && subject.tag.name && (
+                <footer className='absolute bottom-0 w-full p-4 flex flex-col gap-2'>
+                    <span class="badge badge-info badge-xl leading-[0] font-guessr">{subject.category}</span>
+                    <span class="badge badge-secondary badge-xl leading-[0] font-guessr">{subject.tag.name}</span>
+                </footer>
+            )}
+            { subject && level && typeof currentIdx === 'number' && (
                 <MiniMap subject={subject} currentIdx={currentIdx} setCurrentIdx={setCurrentIdx} level={level} />
             )}
         </div>
