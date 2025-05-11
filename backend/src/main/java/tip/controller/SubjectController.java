@@ -13,6 +13,7 @@ import tip.model.Subject;
 import tip.model.SubjectCountry;
 import tip.repository.SubjectCountryRepository;
 import tip.repository.SubjectRepository;
+import tip.repository.TagRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +25,8 @@ public class SubjectController {
     SubjectRepository subjectRepository;
     @Autowired
     SubjectCountryRepository subjectCountryRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> getSubjectById(@RequestParam Integer id) {
@@ -64,5 +67,19 @@ public class SubjectController {
         }
         var countriesOfSubject = subjectCountryRepository.findBySubject_Id(id.longValue());
         return ResponseEntity.ok(countriesOfSubject);
+    }
+
+    @GetMapping(value = "/tag", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getTagOfSubjectById(@RequestParam Integer id) {
+        ErrorResponse errorResponse = new ErrorResponse();
+        Optional<Subject> subject = subjectRepository.findById(id);
+        if (!subject.isPresent()) {
+            errorResponse.setMessage(HttpStatus.NOT_FOUND.name());
+            errorResponse.setMessage("Subject not found");
+            errorResponse.setTarget("model");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+        return ResponseEntity.ok(subject.get().getTag());
+
     }
 }
