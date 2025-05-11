@@ -29,9 +29,9 @@ const LevelSelect = () => {
                     transition-all duration-300 ease-in-out transform hover:scale-105'>
                     <h1 className='w-full font-guessr text-6xl'>Play by Category</h1>
                 </a>
-                <a onClick={() => navigate('/raceguessr')} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
+                <a onClick={() => navigate('/raceguessr', { state: { levelUrl: '/levels/quickplay', endlessMode: true } })} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
                     transition-all duration-300 ease-in-out transform hover:scale-105'>
-                    <h1 className='w-full font-guessr text-6xl'>Free Play</h1>
+                    <h1 className='w-full font-guessr text-6xl'>Endless Mode</h1>
                 </a>
             </div>
         </div>

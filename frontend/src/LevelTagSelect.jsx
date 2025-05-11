@@ -47,7 +47,7 @@ const LevelTagSelect = () => {
             <div className='w-full mt-16 p-4 grid gap-8 z-0'>
                 {
                     (tags || []).map(tag => (
-                        <a className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center
+                        <a onClick={() => navigate('/raceguessr', { state: { levelUrl: `/levels/tag?id=${tag.id}` } })} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center
                             transition-all duration-300 ease-in-out transform hover:scale-105'>
                             <h1 className='w-full font-guessr text-2xl'>{tag.name}</h1>
                         </a>
