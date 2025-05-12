@@ -15,6 +15,10 @@ import ProtectedRoutes from './auth/ProtectedRoutes';
 import LevelSelect from './LevelSelect';
 import LevelTagSelect from './LevelTagSelect';
 import RaceGuessr from './RaceGuessr'
+import Leaderboards from './Leaderboards';
+import About from './About';
+import BGM from './assets/bgm.mp3'
+import HowToPlay from './HowToPlay';
 
 export default function App() {
   const location = useLocation();
@@ -38,9 +42,12 @@ export default function App() {
 
         <Route element={<ProtectedRoutes  allowedRoles={['ADMIN', 'USER']} />}>
               <Route path="/menu" element={<MainMenu />} />
+              <Route path="/leaderboards" element={<Leaderboards />} />
               <Route path="/levels" element={<LevelSelect />} />
               <Route path="/levels/tags" element={<LevelTagSelect />} />
               <Route path="/raceguessr" element={<RaceGuessr />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/how2play" element={<HowToPlay />} />
         </Route>
       </Routes>
     </div>
