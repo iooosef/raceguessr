@@ -1,10 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@plugin "flyonui";
+@plugin "flyonui" {
+     themes: black,light;
+};
+
+html, body {
+  height: 100% !important;
+  overflow-y: auto;
+}
 
 .bg-guessr {
-    background: linear-gradient(to bottom, #1A1A2E, #545494)
+    background: linear-gradient(to bottom, #1A1A2E, #545494) !important;
+}
+
+:root, [data-theme] {
+  background: linear-gradient(to bottom, #1A1A2E, #545494) !important;
 }
 
 .logo-banner-container {
@@ -15,4 +26,8 @@
     font-family: 'Roboto Condensed Variable', sans-serif;
     font-style: italic;
     font-weight: 900;
+}
+
+.dev-imgs {
+  height: 40vh;
 }
