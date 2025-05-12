@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 
 import MiniMap from "./components/MiniMap";
@@ -22,6 +22,12 @@ import HowToPlay from './HowToPlay';
 
 export default function App() {
   const location = useLocation();
+  const audioRef = useRef(null);
+  useEffect(() => {
+    const audio = audioRef.current;
+    audio.volume = 0.05;
+    audio.play().catch(() => {}); // Handle autoplay restrictions
+  }, []);
 
   useEffect(() => {
     // Reinitialize FlyonUI components on page change
@@ -33,7 +39,8 @@ export default function App() {
   }, [location.pathname]);
 
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen overflow-x-hidden">
+      <audio ref={audioRef} src={BGM} loop autoPlay />
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
