@@ -42,6 +42,7 @@ const Me = () => {
             <h1>My Profile</h1>
             {error ? <p>{error}</p> : <p>{JSON.stringify(userMe)}</p>}
             {user && <p>{JSON.stringify(user.username)}</p>}
+            <div class="bg-red-500 text-white p-5">Test</div>
         </div>
     );
 };

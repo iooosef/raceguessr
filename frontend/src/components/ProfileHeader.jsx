@@ -15,7 +15,7 @@ const ProfileHeader = ({ headerText, updateProp }) => {
             setIsUserLoaded(true);
         }
     }, [user, loading]);
-    console.log("updateProp", updateProp)
+    
     useEffect(() => {
         console.log("user", user)
         if (!serverUrl || user?.id ) return;
@@ -35,8 +35,7 @@ const ProfileHeader = ({ headerText, updateProp }) => {
 
     return (
         <div className='flex font-guessr gap-8'>
-            <div id='user-info-container' className='px-4 py-2 flex items-center gap-5 italic font-bold rounded-2xl
-                transition-all duration-300 ease-in-out transform hover:scale-105'
+            <div id='user-info-container' className='px-4 py-2 flex items-center gap-5 italic font-bold rounded-2xl'
                 style={{background: '#2c3e50', fontSize: '1.2em'}}>
                 <span className='text-white'>
                     {user.displayName

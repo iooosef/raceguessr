@@ -27,8 +27,7 @@ const MainMenu = () => {
 
 
     const menuBtnStyle = {
-        minWidth: '300px',
-        padding: '0.5rem',
+        padding: '0.5rem 1.2rem',
         fontStyle: 'italic',
         fontWeight: '900',
         fontSize: '1.8rem',
@@ -60,10 +59,14 @@ const MainMenu = () => {
                     <img src={bannerTagline} alt="logo" className="mt-2" />
                 </div>
                 <nav className='flex flex-col justify-center gap-5' style={{fontFamily: 'Roboto Condensed Variable'}}>
-                    <a onClick={() => navigate('/levels')} className='rounded-full text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
+                    <a onClick={() => navigate('/levels')} className='rounded-full cursor-pointer text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
                         style={{...menuBtnStyle, background: '#2EBE33'}}>PLAY</a>
-                    <button className='rounded-full text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
-                        style={{...menuBtnStyle, background: '#5d5d5d'}}>LEADERBOARDS</button>
+                    <a onClick={() => navigate('/leaderboards')} className='rounded-full cursor-pointer text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
+                        style={{...menuBtnStyle, background: '#5d5d5d'}}>LEADERBOARDS</a>
+                    <a onClick={() => navigate('/how2play')} className='rounded-full cursor-pointer text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
+                        style={{...menuBtnStyle, background: '#5d5d5d'}}>HOW TO PLAY</a>
+                    <a onClick={() => navigate('/about')} className='rounded-full cursor-pointer text-center transition-all duration-300 ease-in-out transform hover:scale-105' 
+                        style={{...menuBtnStyle, background: '#5d5d5d'}}>ABOUT US</a>
                 </nav>
             </main>
         </div>

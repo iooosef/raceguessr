@@ -19,18 +19,23 @@ const LevelSelect = () => {
                     </a>
                 </div>
             </header>
-            <div className='w-full h-full mt-16 p-4 grid gap-8 grid-cols-3'>
-                <a onClick={() => navigate('/raceguessr', { state: { levelUrl: '/levels/quickplay' } })} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
-                    transition-all duration-300 ease-in-out transform hover:scale-105'>
+            <div className='w-full h-full mt-16 p-4 grid gap-8 grid-cols-3 text-white'>
+                <a onClick={() => navigate('/raceguessr', { state: { levelUrl: '/levels/quickplay' } })} 
+                    className='row-span-2 p-4 flex items-center inset-px rounded-lg text-center cursor-pointer
+                    transition-all duration-300 ease-in-out transform hover:scale-105'
+                    style={{background: 'linear-gradient(65deg, #e50006, #fe1c55)'}}>
                     <h1 className='w-full font-guessr text-6xl'>Quick Play</h1>
                 </a>
                 <a onClick={() => navigate('/levels/tags')}  
-                    className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
-                    transition-all duration-300 ease-in-out transform hover:scale-105'>
+                    className='row-span-2 p-4 flex items-center inset-px rounded-lg text-center cursor-pointer
+                    transition-all duration-300 ease-in-out transform hover:scale-105'
+                    style={{background: 'linear-gradient(65deg, #3b82f6, #6366f1)'}}>
                     <h1 className='w-full font-guessr text-6xl'>Play by Category</h1>
                 </a>
-                <a onClick={() => navigate('/raceguessr', { state: { levelUrl: '/levels/quickplay', endlessMode: true } })} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center cursor-pointer
-                    transition-all duration-300 ease-in-out transform hover:scale-105'>
+                <a onClick={() => navigate('/raceguessr', { state: { levelUrl: '/levels/quickplay', endlessMode: true } })} 
+                    className='row-span-2 p-4 flex items-center inset-px rounded-lg text-center cursor-pointer
+                    transition-all duration-300 ease-in-out transform hover:scale-105'
+                    style={{background: 'linear-gradient(65deg, #00a43b, #059669)'}}>
                     <h1 className='w-full font-guessr text-6xl'>Endless Mode</h1>
                 </a>
             </div>

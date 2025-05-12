@@ -44,11 +44,19 @@ const LevelTagSelect = () => {
                     </a>
                 </div>
             </header>
-            <div className='w-full mt-16 p-4 grid gap-8 z-0'>
+            <div className='w-full mt-16 p-4 grid gap-8 z-0 text-white'>
                 {
-                    (tags || []).map(tag => (
-                        <a onClick={() => navigate('/raceguessr', { state: { levelUrl: `/levels/tag?id=${tag.id}` } })} className='row-span-2 p-4 flex items-center inset-px rounded-lg bg-success text-center
-                            transition-all duration-300 ease-in-out transform hover:scale-105'>
+                    (tags || []).map((tag, index) => (
+                        <a
+                            onClick={() => navigate('/raceguessr', { state: { levelUrl: `/levels/tag?id=${tag.id}` } })}
+                            className='row-span-2 p-4 flex items-center inset-px rounded-lg text-center
+                                    transition-all duration-300 ease-in-out transform hover:scale-105 cursor-pointer'
+                            style={{
+                                background: index % 2 === 0
+                                    ? 'linear-gradient(65deg, #00a43b, #059669)' // green
+                                    : 'linear-gradient(65deg, #3b82f6, #6366f1)' // blue
+                            }}
+                        >
                             <h1 className='w-full font-guessr text-2xl'>{tag.name}</h1>
                         </a>
                     ))

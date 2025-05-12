@@ -93,8 +93,8 @@ const RaceGuessr = () => {
             </div>
             { subject && subject.category && subject.tag && subject.tag.name && (
                 <footer className='absolute bottom-0 w-full p-4 flex flex-col gap-2'>
-                    <span class="badge badge-info badge-xl leading-[0] font-guessr">{subject.category}</span>
-                    <span class="badge badge-secondary badge-xl leading-[0] font-guessr">{subject.tag.name}</span>
+                    <span className="badge badge-info badge-xl leading-[0] font-guessr">{subject.category}</span>
+                    <span className="badge badge-secondary badge-xl leading-[0] font-guessr">{subject.tag.name}</span>
                 </footer>
             )}
             { subject && level && typeof currentIdx === 'number' && (
