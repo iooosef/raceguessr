@@ -80,7 +80,8 @@ public class SecurityConfiguration {
                         .requestMatchers(
                                 "/levels/**",
                                 "/subjects/**",
-                                "/guess/**").authenticated()
+                                "/guess/**",
+                                "/leaderboards/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .formLogin(
