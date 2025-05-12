@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import worldGeoJson from "../assets/countries.geo.json";
 import { motion, useAnimation, AnimatePresence } from "framer-motion";
+import JSConfetti from 'js-confetti'
 
 import { useConfig } from '../util/ConfigContext';
 
@@ -24,6 +25,9 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
   const [ guessResult, setGuessResult ] = useState({})
   const [ isScoringMode, setIsScoringMode ] = useState(false);
   const [ mapLines, setMapLines ]= useState([])
+  
+  const jsConfettiRef = useRef(null);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const defaultStyle = {
     fillColor: "lightblue",
@@ -31,6 +35,20 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
     color: "white",
     fillOpacity: 0.7
   }
+
+  useEffect(() => {
+    if (!jsConfettiRef.current) {
+      jsConfettiRef.current = new JSConfetti();
+    }
+  }, []);
+  useEffect(() => {
+    // guess-result-container
+    console.log("showConfetti", showConfetti)
+    console.log("jsConfettiRef.current", jsConfettiRef.current)
+    if (showConfetti && jsConfettiRef.current) {
+      jsConfettiRef.current.addConfetti();
+    }
+  }, [showConfetti])
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -83,7 +101,6 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
   useEffect(() => {
     selectedCountriesRef.current = selectedCountries;    
     setGuessBtnTxt(guessBtnTextUnanswered())
-    console.log("selectedCountries", selectedCountries)
   }, [selectedCountries])
 
   // for dealing with expansion (vore moment) of minimap
@@ -142,6 +159,18 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
     if (!guessResult || !Array.isArray(guessResult.correct_countries)) return;
     setIsScoringMode(true)
     setExpanded(true)
+    console.log("correct", guessResult.isCorrect)
+    // bullshit fix - true yung previous, tapos correct yung current
+    // i-switch muna sa false then balik sa true
+    if (guessResult.isCorrect) {
+      setShowConfetti(false);
+      requestAnimationFrame(() => {
+        setShowConfetti(true);
+      });
+    } else {
+      setShowConfetti(false);
+    }
+
   
     const selectedIds = selectedCountries.map(c => c.id);
     const correctCountriesIds = guessResult.correct_countries.map(c => c.id);
@@ -192,7 +221,6 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
   
     function getLayerById(id) {
       let found = null;
-      console.log("guessResult", guessResult)
       geoJsonLayer.current.eachLayer(layer => {
         if (layer.feature?.properties?.id === id) {
           found = layer;
@@ -253,6 +281,7 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
     });    
     // setCurrentIdx(currentIdx+1)if (!geoJsonLayer.current) return;    
   }
+
   
   // Handle dynamic text in Guess button
   const guessBtnTextUnanswered = () => {
@@ -285,7 +314,6 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
     setCurrentIdx(nextIdx);
     setGuessBtnTxt(guessBtnTextUnanswered());
   
-    console.log("index/count", nextIdx, level.length);
     if (nextIdx === level?.length) {
       navigate('/levels');
     }
@@ -339,9 +367,9 @@ export default function MiniMap({ subject, currentIdx, setCurrentIdx, level }) {
             )}
             {isScoringMode && (
               <div className="absolute bottom-0 left-0 w-full px-12 mb-28 flex gap-2">
-                <div className="alert alert-primary flex items-start gap-4">
+                <div className="alert alert-primary flex items-start gap-4 bg-violet-700" id='guess-result-container'>
                   <span className="text-7xl">{
-                    guessResult?.isCorrect ? ['🥳', '😻', '🤩', '😎', '☝🤓'][Math.floor(Math.random() * 5)] 
+                    guessResult?.isCorrect ? ['🥳', '😻', '🤩', '😎', '🤓'][Math.floor(Math.random() * 5)] 
                       : ['😿', '🤡', '💩', '🥀', '😞'][Math.floor(Math.random() * 5)]
                   }</span>
                   <div className="w-full flex flex-col justify-between gap-1">
