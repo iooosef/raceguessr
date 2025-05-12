@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.5'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'com.github.node-gradle.node' version '7.1.0'
+    id 'org.liquibase.gradle' version '2.0.4'  // Liquibase plugin
 }
 
 java {
@@ -35,6 +36,7 @@ dependencies {
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.liquibase:liquibase-core'
 }
 
 bootJar {

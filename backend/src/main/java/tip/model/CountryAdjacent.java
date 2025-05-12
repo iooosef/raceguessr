@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @IdClass(CountryAdjacentId.class)
-@Table(name = "CountryAdjacent")
+@Table(name = "country_adjacent")
 public class CountryAdjacent {
     @Id
     private Integer id1;
