@@ -20,8 +20,6 @@ export default {
   plugins: [
     flyonui,
     plugin
-  ],flyonui: {
-    themes: ["light", "black"],
-  }
+  ]
 }
 

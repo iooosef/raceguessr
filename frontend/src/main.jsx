@@ -7,6 +7,7 @@ import './index.css'
 import { ConfigProvider } from './util/ConfigContext';
 import { UserProvider } from './auth/UserContext'; 
 import App from './App.jsx'
+import "./globals.js"
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
